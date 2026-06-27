@@ -1,0 +1,50 @@
+//Flattening an array of arrays with the Reduce Method In JavaScript
+
+
+const data = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+
+const flat = data.reduce((total, amount) => {
+  return total.concat(amount);
+}, []);
+
+flat // [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+
+
+
+// flat give array
+
+var data=[1,[2,3],[[4,5,6]]]
+
+function flattenArray(arr) {
+  let result = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (Array.isArray(arr[i])) {
+      result = result.concat(flattenArray(arr[i]));
+    } else {
+      result.push(arr[i]);
+    }
+  }
+  return result;
+}
+
+const arr = [1,[2,3],[[4,5,6]]];
+const flattenedArr = flattenArray(arr);
+
+console.log(flattenedArr); // Output: [1, 2, 3, 4, 5, 6]
+
+//2nd method
+
+const arr = [1,[2,3],[[4,5,6]]];
+const flattenedArr = arr.flat();
+
+console.log(flattenedArr); // Output: [1, 2, 3, 4, 5, 6]
+
+or
+If the depth of nested arrays is unknown or unpredictable, you can use the Infinity keyword as an argument to flatten the array completely.
+
+
+Here's an example:
+const arr = [1,[2,3],[[4,5,6]]];
+const flattenedArr = arr.flat(Infinity);
+
+console.log(flattenedArr); // Output: [1, 2, 3, 4, 5, 6]

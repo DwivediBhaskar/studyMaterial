@@ -1,0 +1,157 @@
+console.log("Start");
+
+setTimeout(() => {
+  console.log("Timeout");
+}, 0);
+
+Promise.resolve().then(() => {
+  console.log("Promise");
+});
+
+console.log("End");
+
+2️⃣ Expected Output (remember this)
+Start
+End
+Promise
+Timeout
+
+
+Now let’s prove WHY.
+
+3️⃣ Complete Event Loop Flow (Step-by-Step)
+🕒 STEP 1: Global execution starts
+CALL STACK
+----------
+| global |
+----------
+
+MICROTASK QUEUE: empty
+TASK QUEUE: empty
+
+🕒 STEP 2: console.log("Start")
+
+Runs synchronously
+
+📤 Output:
+
+Start
+
+🕒 STEP 3: setTimeout(...)
+setTimeout(() => {
+  console.log("Timeout");
+}, 0);
+
+What happens:
+
+Timer handled by Web API
+
+After 0 ms:
+
+Callback moved to Task Queue
+
+TASK QUEUE
+----------
+| Timeout callback |
+----------
+
+
+⚠️ Not executed yet
+
+🕒 STEP 4: Promise.then(...)
+Promise.resolve().then(() => {
+  console.log("Promise");
+});
+
+What happens:
+
+Promise resolves immediately
+
+.then() callback goes to Microtask Queue
+
+MICROTASK QUEUE
+---------------
+| Promise callback |
+---------------
+
+🕒 STEP 5: console.log("End")
+
+Runs synchronously
+
+📤 Output:
+
+End
+
+🕒 STEP 6: Call Stack is now empty
+
+Now Event Loop starts scheduling.
+
+4️⃣ Event Loop Scheduling Order
+Rule (VERY IMPORTANT):
+
+When the call stack is empty, the event loop first drains the microtask queue completely, then executes one task.
+
+🔁 STEP 7: Run Microtasks First
+CALL STACK
+----------
+| Promise callback |
+----------
+
+
+📤 Output:
+
+Promise
+
+
+Microtask queue now empty.
+
+🔁 STEP 8: Run Task Queue (setTimeout)
+CALL STACK
+----------
+| Timeout callback |
+----------
+
+
+📤 Output:
+
+Timeout
+
+5️⃣ Final Output (Confirmed)
+Start
+End
+Promise
+Timeout
+
+6️⃣ FULL DIAGRAM (One View)
+                 Browser / JS Runtime
+┌────────────────────────────────────────┐
+│                                        │
+│   Web APIs                             │
+│  ┌──────────────┐                     │
+│  │ setTimeout   │                     │
+│  │ fetch        │                     │
+│  └──────┬───────┘                     │
+│         │ callback                    │
+│         ▼                             │
+│  ┌──────────────┐        ┌──────────┐│
+│  │ Task Queue   │◀───────┤ Event    ││
+│  │ (macrotask)  │        │ Loop     ││
+│  └──────────────┘        └────┬─────┘│
+│                               │      │
+│  ┌──────────────┐             │      │
+│  │ Microtask    │◀────────────┘      │
+│  │ Queue        │  (Promises)         │
+│  └──────────────┘                     │
+│                               ▲      │
+│                         ┌─────┴────┐ │
+│                         │ Call     │ │
+│                         │ Stack    │ │
+│                         └──────────┘ │
+└────────────────────────────────────────┘
+
+7️⃣ One-Sentence Master Rule ⭐
+
+Synchronous code runs first, then microtasks (Promises), then tasks (setTimeout, events).
+
+8️⃣ Final Mental Model (remember forever)
+Call Stack → Microtask Queue → Task Queue
