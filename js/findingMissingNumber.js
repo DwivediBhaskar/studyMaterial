@@ -1,10 +1,8 @@
 // By-----BH - 2026/28/06
-// How it works:
-// Calculate what the sum should be using the formula.
-// Calculate the actual sum of the array using reduce().
+How it works:
+//Calculate what the sum should be using the formula.
+//Calculate the actual sum of the array using reduce()
 // The difference between them is your missing number.
-// Online Javascript Editor for free
-// Write, Edit and Run your Javascript code using JS Online Compiler
 function findMissingNumber(num){
     const n = num.length;
     const exSum = (n*(n+1))/2;
@@ -39,6 +37,13 @@ function findMissingInRandomSeries(nums) {
 
 // Test Case
 console.log(findMissingInRandomSeries([24, 12, 21, 15])); // Output: 18
+// How it works:
+// Calculate what the sum should be using the formula.
+// Calculate the actual sum of the array using reduce().
+// The difference between them is your missing number.
+// Online Javascript Editor for free
+// Write, Edit and Run your Javascript code using JS Online Compiler
+
 
 // //Take a substitute array of size N+1 and initalize it with 0.
 // Traverse the given array and increase the value of substitute[arr[i]] by one .
