@@ -1,4 +1,44 @@
+// By-----BH - 2026/28/06
+// How it works:
+// Calculate what the sum should be using the formula.
+// Calculate the actual sum of the array using reduce().
+// The difference between them is your missing number.
+// Online Javascript Editor for free
+// Write, Edit and Run your Javascript code using JS Online Compiler
+function findMissingNumber(num){
+    const n = num.length;
+    const exSum = (n*(n+1))/2;
+    console.log('exSUm',exSum);
+const actualSum = num.reduce((acc,curr) => acc+curr,0)
+return exSum-actualSum;
+}
+console.log("Start small. Ship something.",findMissingNumber([4,5,7]));
 
+function findMissingInRandomSeries(nums) {
+    const n = nums.length;
+    
+    // 1. Find Min and Max values (Takes O(n) time)
+    let min = Math.min(...nums);
+    let max = Math.max(...nums);
+    
+    // 2. Calculate the constant gap using the formula
+    const gap = (max - min) / n; 
+    
+    // 3. Put all numbers into a Set for O(1) lookup time
+    const numSet = new Set(nums);
+    
+    // 4. Loop from min to max, skipping by the calculated gap
+    for (let i = min; i <= max; i += gap) {
+        if (!numSet.has(i)) {
+            return i; // This is your missing number!
+        }
+    }
+    
+    return -1; // Return -1 if nothing is missing
+}
+
+// Test Case
+console.log(findMissingInRandomSeries([24, 12, 21, 15])); // Output: 18
 
 // //Take a substitute array of size N+1 and initalize it with 0.
 // Traverse the given array and increase the value of substitute[arr[i]] by one .
